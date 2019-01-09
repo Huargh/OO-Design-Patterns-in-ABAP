@@ -124,7 +124,7 @@ START-OF-SELECTION.
 *      cl_demo_output=>new( )->begin_section( 'Hey Dummy'
 *                           )->write_text( |Try addition for starters, maybe?|
 *                           )->display( ).
-*      p_oper = '+'.
+*      p_oper = '+'. "<-- Here, we sanitize the input. RETRY only makes sense, if we are sure, we've fixed the root-cause of the exception
 *      RETRY.
     CATCH cx_sy_zerodivide.
       cl_demo_output=>new( )->begin_section( 'Nope'
