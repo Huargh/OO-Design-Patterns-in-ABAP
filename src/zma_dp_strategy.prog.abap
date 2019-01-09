@@ -120,6 +120,12 @@ START-OF-SELECTION.
       cl_demo_output=>new( )->begin_section( 'Nope'
                            )->write_text( |You better choose on of these operators: +, -, *, /|
                            )->display( ).
+      " Uncomment this block to show an example where RETRY might make sense (Infinity-loop danger territory)
+*      cl_demo_output=>new( )->begin_section( 'Hey Dummy'
+*                           )->write_text( |Try addition for starters, maybe?|
+*                           )->display( ).
+*      p_oper = '+'.
+*      RETRY.
     CATCH cx_sy_zerodivide.
       cl_demo_output=>new( )->begin_section( 'Nope'
                          )->write_text( |Thou shalt not divide by zero!!!!!!1111|
