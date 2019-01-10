@@ -8,11 +8,11 @@ REPORT zma_dp_strategy.
 CLASS lcx_invalid_operator DEFINITION INHERITING FROM cx_static_check.
 ENDCLASS.
 
-"The basic idea of the strategy pattern is to separate the distinction, which type of logic to apply from the actual logic being applied.
+"The basic idea of the strategy pattern is to separate the distinction, which type of logic to apply, from the actual logic being applied.
 " In other words: To separate the CASE from the Method/Function calls underneath the WHEN-branches.
 "The strategy pattern consists of three parts:
-" 1. Something, that formalizes our signature, i.e. the parameters that are supplied to & retrieved from the procedures --> In this example: lcl_strategy_factory
-" 2. Something, that determines, which logic should be applied --> In this example: lcl_strategy_factory=>get_strategy
+" 1. Something, that formalizes our signature, i.e. the parameters that are supplied to & retrieved from the procedures --> In this example: lcl_strategy_decision
+" 2. Something, that determines, which logic should be applied --> In this example: lcl_strategy_decision=>get_strategy
 " 3. The actual implementation of the various procedures --> In this example: the addition, subtraction, multiplication & division classes
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -27,7 +27,7 @@ ENDINTERFACE.
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 2: Which logic is supposed to be used?
-CLASS lcl_strategy_factory DEFINITION. "Chooses the correct "variant" out of several strategies
+CLASS lcl_strategy_decision DEFINITION. "Chooses the correct "variant" out of several strategies
   PUBLIC SECTION.
     CLASS-METHODS get_strategy IMPORTING ip_operation         TYPE char1
                                RETURNING VALUE(rref_strategy) TYPE REF TO lif_strategy "returns an actual arithm. operation class
@@ -60,7 +60,7 @@ CLASS lcl_division DEFINITION.
     ALIASES return_result FOR lif_strategy~return_result.
 ENDCLASS.
 
-CLASS lcl_strategy_factory IMPLEMENTATION.
+CLASS lcl_strategy_decision IMPLEMENTATION.
   METHOD get_strategy.
     CASE ip_operation.
       WHEN '+'.
@@ -109,7 +109,7 @@ PARAMETERS p_oper(1) TYPE c.
 
 START-OF-SELECTION.
   TRY.
-      DATA(lr_strategy) = lcl_strategy_factory=>get_strategy( p_oper ).
+      DATA(lr_strategy) = lcl_strategy_decision=>get_strategy( p_oper ).
       DATA(ld_result) = lr_strategy->return_result( ip_value1 = p_value1
                                                     ip_value2 = p_value2 ).
 
